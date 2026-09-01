@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+@theme {
+  /* Their mark is white on black and carries no colour of its own, so the
+     shell stays achromatic: the only colour on this site comes from the cars,
+     via each exhibit's own published paint name. */
+  --color-void: #0b0b0d;
+  --color-void-2: #131418;
+  --color-void-3: #1c1e23;
+  --color-steel: #7d838c; /* lightened until the small serif labels clear AA on the void ground */
+  --color-steel-2: #9aa1ab;
+  --color-chalk: #f4f5f7;
+  /* Lifted from the ambient light strips running through their cabin frames. */
+  --color-beam: #57c8e8;
+
+  --font-display: var(--font-syne), "Helvetica Neue", sans-serif;
+  --font-serif: var(--font-bodoni), Georgia, serif;
+  --font-body: var(--font-inter-tight), system-ui, sans-serif;
+  --font-arabic: var(--font-readex), "Segoe UI", sans-serif;
+
+  --text-hero: clamp(2.5rem, 6.6vw, 6rem);
+  --text-display: clamp(1.8rem, 4vw, 3.4rem);
+  --text-lead: clamp(1rem, 1.15vw, 1.16rem);
+}
+
+@layer base {
+  html {
+    background: var(--color-void);
+    color: var(--color-chalk);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+
+  html[dir="rtl"] body {
+    font-family: var(--font-arabic);
+  }
+
+  ::selection {
+    background: var(--color-beam);
+    color: var(--color-void);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-beam);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+/* Their wordmark sets "LUXURY & EXOTICS" in a widely letterspaced serif.
+   That treatment is reserved here for eyebrows and plate labels. */
+@utility label-serif {
+  font-family: var(--font-serif);
+  text-transform: uppercase;
+  letter-spacing: 0.34em;
+  font-size: 0.66rem;
+  font-weight: 500;
+}
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The hall's own light: a hard vertical fall from the ceiling strips. */
+@utility hall-light {
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--color-chalk) 5%, transparent),
+    transparent 38%
+  );
+}
+
+/*
+ * Motion signature: a scanline. Nothing fades or slides — a bright rule
+ * travels across the element and leaves the content behind it, the way a
+ * specimen scanner passes over a subject.
+ */
+@keyframes scan-in {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes scan-line {
+  from {
+    transform: translateX(-2%) scaleY(1);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  to {
+    transform: translateX(102%) scaleY(1);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes scan-in {
+    from {
+      clip-path: none;
+    }
+    to {
+      clip-path: none;
+    }
+  }
+  @keyframes scan-line {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+}
+
+/* Arabic corrections, unlayered so they outrank the utilities. Keyed off
+   [dir], never [lang]: browser translation rewrites lang and breaks this. */
+html[dir="rtl"] .font-display {
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
+}
+
+html[dir="rtl"] .label-serif {
+  font-family: var(--font-arabic);
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+html[dir="rtl"] .text-hero {
+  font-size: clamp(1.9rem, 5.4vw, 4.6rem);
+  line-height: 1.34;
+}
+
+html[dir="rtl"] .text-display {
+  font-size: clamp(1.5rem, 3.4vw, 2.8rem);
+  line-height: 1.4;
+}
+
+html[dir="rtl"] [class*="tracking-["] {
+  letter-spacing: 0;
+}
+
+/* A scan sweeps left-to-right; in RTL it must sweep the other way. */
+html[dir="rtl"] .scan-target {
+  animation-name: scan-in-rtl;
+}
+
+@keyframes scan-in-rtl {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes scan-in-rtl {
+    from {
+      clip-path: none;
+    }
+    to {
+      clip-path: none;
+    }
+  }
+}
