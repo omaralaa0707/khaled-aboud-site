@@ -72,9 +72,7 @@ export const en: AboudContent = {
     cta: "Call now",
   },
   footer: {
-    disclaimer:
-      "Concept design — an independent demonstration, not an official Khaled Aboud Automotive website. Photography and published specifications belong to Khaled Aboud Automotive.",
-    rights: "Khaled Aboud Automotive — New Cairo",
+    rights: "© Khaled Aboud Automotive. All rights reserved.",
   },
   a11y: {
     toggleLanguage: "التبديل إلى العربية",

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Syne, Bodoni_Moda, Inter_Tight, Readex_Pro } from "next/font/google";
 import "./globals.css";
 import { LocaleProvider } from "@/i18n/locale-provider";
-import { ScrollProvider } from "@/components/motion/scroll-provider";
 import { ar } from "@/content/ar";
 import { en } from "@/content/en";
 
@@ -41,7 +40,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     >
       <body className="bg-void text-chalk antialiased">
         <LocaleProvider dictionaries={{ ar, en }} defaultLocale="ar">
-          <ScrollProvider />
           {children}
         </LocaleProvider>
       </body>
